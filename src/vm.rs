@@ -15,7 +15,41 @@ pub enum Instruction {
     Load,
     Inv,
 }
+
 pub type Instructions = Vec<Instruction>;
+pub trait WpkOpcount {
+    fn opcount(&self) -> (u64, u64, u64, u64);
+}
+impl WpkOpcount for Instructions {
+    fn opcount(&self) -> (u64, u64, u64, u64) {
+        let mut inc_count: u64 = 0;
+        let mut cdec_count: u64 = 0;
+        let mut load_count: u64 = 0;
+        let mut inv_count: u64 = 0;
+
+        for instruction in self.iter() {
+            match instruction {
+                Instruction::Inc(x) => {
+                    inc_count += *x as u64;
+                }
+                Instruction::Cdec(x) => {
+                    cdec_count += *x as u64;
+                }
+                Instruction::Load => {
+                    load_count += 1;
+                }
+                Instruction::Inv => {
+                    inv_count += 1;
+                }
+                Instruction::Null => {
+                    unreachable!();
+                }
+            }
+        }
+
+        return (inc_count, cdec_count, load_count, inv_count);
+    }
+}
 
 impl Instruction {
     pub fn to_wpk_string(&self) -> String {
@@ -167,34 +201,5 @@ impl Vm {
             runtime: self.runtime,
             memory: self.memory_pointer.span(),
         };
-    }
-
-    pub fn opcount(&self) -> (u64, u64, u64, u64) {
-        let mut inc_count: u64 = 0;
-        let mut cdec_count: u64 = 0;
-        let mut load_count: u64 = 0;
-        let mut inv_count: u64 = 0;
-
-        for instruction in self.program.iter() {
-            match instruction {
-                Instruction::Inc(x) => {
-                    inc_count += *x as u64;
-                }
-                Instruction::Cdec(x) => {
-                    cdec_count += *x as u64;
-                }
-                Instruction::Load => {
-                    load_count += 1;
-                }
-                Instruction::Inv => {
-                    inv_count += 1;
-                }
-                Instruction::Null => {
-                    unreachable!();
-                }
-            }
-        }
-
-        return (inc_count, cdec_count, load_count, inv_count);
     }
 }

@@ -3,7 +3,7 @@ use std::fs::File;
 use std::io::{prelude::*, BufReader, BufWriter};
 use utf8_chars::BufReadCharsExt;
 
-use crate::vm::{Instruction, Instructions, VmUsize, MEM_SIZE};
+use crate::vm::{Instruction, Instructions, VmUsize, WpkOpcount, MEM_SIZE};
 
 const INC_STR: &str = "INC";
 const CDEC_STR: &str = "CDEC";
@@ -274,15 +274,26 @@ pub fn do_compress(input_path: &str, output_path: &str) -> Result<()> {
 
     println!("Compressing {} => {}", input_path, output_path);
     println!("Parsing...");
+    let instructions = parse_file(input_path, false)?;
+    let opcounts = instructions.opcount();
+
+    println!(
+        "Instruction Counts: INC {} / CDEC {} / LOAD {} / INV {}",
+        opcounts.0, opcounts.1, opcounts.2, opcounts.3
+    );
+    println!(
+        "Total {} step(s) compressed into {} instructions",
+        opcounts.0 + opcounts.1 + opcounts.2 + opcounts.3,
+        instructions.len()
+    );
+
+    println!("Writing...");
     let output_file = File::options()
         .read(true)
         .write(true)
         .create(true)
         .open(output_path)?;
-    let instructions = parse_file(input_path, false)?;
     let mut writer = BufWriter::new(output_file);
-
-    println!("Writing...");
     if output_path.ends_with(".wpk") {
         for instruction in instructions.iter() {
             writer.write(instruction.to_wpk_string().as_bytes())?;

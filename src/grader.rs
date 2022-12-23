@@ -4,7 +4,12 @@ use miniserde::{json, Deserialize, Serialize};
 use std::io;
 use std::{cmp::max, io::Write};
 
-use crate::{parse::parse_file, task::Task, util::ResetableTimer, vm::Vm};
+use crate::{
+    parse::parse_file,
+    task::Task,
+    util::ResetableTimer,
+    vm::{Vm, WpkOpcount},
+};
 
 #[derive(Serialize, Deserialize, Debug)]
 struct InstructionCount {
@@ -32,24 +37,18 @@ struct GradeResult {
     time_taken: TimeTaken,
 }
 
-pub fn do_grade(
-    task: Task,
-    wpk_path: &str,
-    progress: bool,
-    color: bool,
-    json: bool,
-) -> Result<()> {
+pub fn do_grade(task: Task, wpk_path: &str, progress: bool, color: bool, json: bool) -> Result<()> {
     let mut timer = ResetableTimer::new();
     let mut parse_time: f64 = 0.0;
     let mut vm_time: f64 = 0.0;
     let mut grade_time: f64 = 0.0;
 
     let instructions = parse_file(wpk_path, true)?;
+    let opcounts = instructions.opcount();
 
     parse_time += timer.seconds_since();
 
     let mut vm = Vm::new(instructions);
-    let opcounts = vm.opcount();
 
     vm_time += timer.seconds_since();
 
@@ -138,7 +137,7 @@ pub fn do_grade(
         println!("Instructions: {}", max_runtime);
         println!("Memory Usage: {}", max_memory);
         println!(
-            "Instruction counts: INC {} / CDEC {} / LOAD {} / INV {}",
+            "Instruction Counts: INC {} / CDEC {} / LOAD {} / INV {}",
             opcounts.0, opcounts.1, opcounts.2, opcounts.3
         );
         println!(

@@ -36,7 +36,7 @@ Verdict: WA ❌
 Score: 52/100
 Instructions: 6
 Memory Usage: 3
-Instruction counts: INC 2 / CDEC 1 / LOAD 2 / INV 1
+Instruction Counts: INC 2 / CDEC 1 / LOAD 2 / INV 1
 Time: Parse 0.000s / VM Setup 0.112s / Grading 4.230s
 $ wpkpp grade 0 0.wpkm --json
 {"verdict":"WA","score":48,"total":100,"runtime":7,"memory":4,"instructions":{"inc":3,"cdec":1,"load":2,"inv":1},"time_taken":{"parse":0.000043039,"vm":0.118700937,"grade":4.168959827}}
