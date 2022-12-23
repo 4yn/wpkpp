@@ -2,10 +2,9 @@ use anyhow::Result;
 use colored::Colorize;
 use miniserde::{json, Deserialize, Serialize};
 use std::io;
-use std::time;
 use std::{cmp::max, io::Write};
 
-use crate::{parse::parse_file, task::Task, vm::Vm};
+use crate::{parse::parse_file, task::Task, util::ResetableTimer, vm::Vm};
 
 #[derive(Serialize, Deserialize, Debug)]
 struct InstructionCount {
@@ -40,17 +39,20 @@ pub fn do_grade(
     color: bool,
     json: bool,
 ) -> Result<()> {
-    let instant_start = time::Instant::now();
+    let mut timer = ResetableTimer::new();
+    let mut parse_time: f64 = 0.0;
+    let mut vm_time: f64 = 0.0;
+    let mut grade_time: f64 = 0.0;
 
     let task = Task::from_u8(task_id)?;
     let instructions = parse_file(wpk_path, true)?;
 
-    let instant_parse = time::Instant::now();
+    parse_time += timer.seconds_since();
 
     let mut vm = Vm::new(instructions);
     let opcounts = vm.opcount();
 
-    let instant_vm = time::Instant::now();
+    vm_time += timer.seconds_since();
 
     let mut max_runtime: i64 = 0;
     let mut max_memory: i64 = 0;
@@ -61,7 +63,10 @@ pub fn do_grade(
         let (input_mem, ans_mem) = task.load_tc(tc_id)?;
         vm.reset();
         vm.memory[0..input_mem.len()].copy_from_bitslice(&input_mem);
+        vm_time += timer.seconds_since();
+
         let run_stats = vm.run();
+
         let output_mem = &vm.memory[input_mem.len()..(input_mem.len() + ans_mem.len())];
 
         let res = output_mem == ans_mem;
@@ -86,22 +91,8 @@ pub fn do_grade(
             print!("{}", res_text);
             io::stdout().flush().unwrap();
         }
+        grade_time += timer.seconds_since();
     }
-
-    let instant_grade = time::Instant::now();
-
-    let parse_secs = instant_parse
-        .checked_duration_since(instant_start)
-        .unwrap_or(time::Duration::from_millis(0))
-        .as_secs_f64();
-    let vm_secs = instant_vm
-        .checked_duration_since(instant_parse)
-        .unwrap_or(time::Duration::from_millis(0))
-        .as_secs_f64();
-    let grade_secs = instant_grade
-        .checked_duration_since(instant_vm)
-        .unwrap_or(time::Duration::from_millis(0))
-        .as_secs_f64();
 
     if progress && !json {
         println!("");
@@ -127,9 +118,9 @@ pub fn do_grade(
                 inv: opcounts.3,
             },
             time_taken: TimeTaken {
-                parse: parse_secs,
-                vm: vm_secs,
-                grade: grade_secs,
+                parse: parse_time,
+                vm: vm_time,
+                grade: grade_time,
             },
         };
 
@@ -153,7 +144,7 @@ pub fn do_grade(
         );
         println!(
             "Time: Parse {:.3}s / VM Setup {:.3}s / Grading {:.3}s",
-            parse_secs, vm_secs, grade_secs
+            parse_time, vm_time, grade_time
         );
     }
 
