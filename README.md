@@ -18,7 +18,7 @@ cargo install --path .
 
 ### `wpkpp grade [task] [file.(wpk|wpkm)]`
 
-Grades a woodpecker task. Currently implemented up to stage 5.
+Grades a woodpecker task. Currently implemented up to stage 5. See the [original repo](https://github.com/radical-semiconductor/woodpecker/#task-description) for full task description.
 
 Challenge testcases are seeded according to the `WPKPP_SEED` environment variable.
 
