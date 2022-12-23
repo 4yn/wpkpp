@@ -10,8 +10,8 @@ Original at https://github.com/radical-semiconductor/woodpecker/ and https://rad
 
 - `INC` is `>`, `INC n` is `n>`
 - `CDEC` is `<`, `CDEC n` is `n<`
-- `LOAD` is `?`
-- `INV` is `!`
+- `LOAD` is `?` or `v`
+- `INV` is `!` or `^`
 
 ## Install
 

@@ -48,7 +48,7 @@ struct Grade {
 #[command(verbatim_doc_comment)]
 /// Compress your woodpecker scripts to use repeating INC / CDEC instructions
 /// *.wpk format uses "INC [?n]" / "CDEC [?n]" / "LOAD" / "INV"  
-/// *.wpkm format uses "[?n]>" / "[?n]<" / "?" / "!"
+/// *.wpkm format uses "[?n]>" / "[?n]<" / "?" or "v" / "!" or "^"
 struct Compress {
     /// Input file path
     #[arg(value_name = "infile.(wpk|wpkm)", value_parser = valid_script_name)]

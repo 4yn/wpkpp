@@ -13,7 +13,9 @@ const INV_STR: &str = "INV";
 const INC_M_STR: char = '>';
 const CDEC_M_STR: char = '<';
 const LOAD_M_STR: char = '?';
+const LOAD_M_STR_ALT: char = 'v';
 const INV_M_STR: char = '!';
+const INV_M_STR_ALT: char = '^';
 
 const MEGABYTE: u64 = 1_000_000;
 const MAX_FILE_SIZE: u64 = 10_000_000;
@@ -149,11 +151,11 @@ fn parse_wpkm(path: &str, check_size: bool) -> Result<Instructions> {
                 ctr = None;
                 i
             }
-            LOAD_M_STR => {
+            LOAD_M_STR | LOAD_M_STR_ALT => {
                 assert!(ctr.is_none());
                 Instruction::Load
             }
-            INV_M_STR => {
+            INV_M_STR | INV_M_STR_ALT => {
                 assert!(ctr.is_none());
                 Instruction::Inv
             }
