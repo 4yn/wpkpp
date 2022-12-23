@@ -1,10 +1,8 @@
 # wpkpp
 
-Woodpecker++: alternative VM for woodpecker esolang scripts.
+Woodpecker++: alternative VM for woodpecker esolang scripts. Now with compression, static testcases, minified instruction set, JSON output and more.
 
-Now with compression, fixed testcases and JSON output.
-
-Original at https://github.com/radical-semiconductor/woodpecker/ and https://radicalsemiconductor.com/woodpecker/
+[Original repo](https://github.com/radical-semiconductor/woodpecker/) | [Original challenge website](https://radicalsemiconductor.com/woodpecker/)
 
 ## Install
 
