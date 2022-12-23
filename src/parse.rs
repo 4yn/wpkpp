@@ -282,7 +282,7 @@ pub fn do_compress(input_path: &str, output_path: &str) -> Result<()> {
         opcounts.0, opcounts.1, opcounts.2, opcounts.3
     );
     println!(
-        "Total {} step(s) compressed into {} instructions",
+        "Total {} instruction(s) compressed into {} steps",
         opcounts.0 + opcounts.1 + opcounts.2 + opcounts.3,
         instructions.len()
     );
