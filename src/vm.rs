@@ -1,5 +1,5 @@
 use bitvec::prelude::*;
-use std::cmp::{min, max};
+use std::cmp::{max, min};
 
 pub type VmUsize = u32;
 pub const MEM_SIZE: usize = 1 << 32;
@@ -21,24 +21,26 @@ impl Instruction {
     pub fn to_wpk_string(&self) -> String {
         match self {
             Self::Null => unreachable!(),
+            Self::Inc(0) | Self::Cdec(0) => "".to_string(),
             Self::Inc(1) => "INC\n".to_string(),
             Self::Inc(x) => format!("INC {}\n", x),
             Self::Cdec(1) => "CDEC\n".to_string(),
             Self::Cdec(x) => format!("CDEC {}\n", x),
             Self::Load => "LOAD\n".to_string(),
-            Self::Inv => "INV\n".to_string()
+            Self::Inv => "INV\n".to_string(),
         }
     }
 
     pub fn to_wpkm_string(&self) -> String {
         match self {
             Self::Null => unreachable!(),
+            Self::Inc(0) | Self::Cdec(0) => "".to_string(),
             Self::Inc(1) => ">".to_string(),
             Self::Inc(x) => format!("{}>", x),
             Self::Cdec(1) => "<".to_string(),
             Self::Cdec(x) => format!("{}<", x),
             Self::Load => "?".to_string(),
-            Self::Inv => "!".to_string()
+            Self::Inv => "!".to_string(),
         }
     }
 }
@@ -93,7 +95,7 @@ pub struct Vm {
     pub runtime: i64,
     pub halted: bool,
 
-    pub register: bool
+    pub register: bool,
 }
 
 pub struct RunResult {
@@ -146,9 +148,10 @@ impl Vm {
                     self.runtime += 1;
                 }
                 Instruction::Inv => {
-                    self.memory.set(self.memory_pointer.ptr as usize, !current_memory);
+                    self.memory
+                        .set(self.memory_pointer.ptr as usize, !current_memory);
                     self.runtime += 1;
-                },
+                }
                 Instruction::Null => {
                     unreachable!();
                 }
@@ -162,8 +165,8 @@ impl Vm {
 
         return RunResult {
             runtime: self.runtime,
-            memory: self.memory_pointer.span()
-        }
+            memory: self.memory_pointer.span(),
+        };
     }
 
     pub fn opcount(&self) -> (u64, u64, u64, u64) {
@@ -185,13 +188,13 @@ impl Vm {
                 }
                 Instruction::Inv => {
                     inv_count += 1;
-                },
+                }
                 Instruction::Null => {
                     unreachable!();
                 }
             }
         }
 
-        return (inc_count, cdec_count, load_count, inv_count)
+        return (inc_count, cdec_count, load_count, inv_count);
     }
 }

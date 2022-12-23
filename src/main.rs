@@ -58,9 +58,9 @@ struct Compress {
     #[arg(value_name = "infile.(wpk|wpkm)", value_parser = parse_script_name)]
     input_path: String,
 
-    /// Output file path
+    /// Output file path; Optional, defaults to [infile]-compress.(wpk|wpkm)
     #[arg(value_name = "outfile.(wpk|wpkm)", value_parser = parse_script_name)]
-    output_path: String,
+    output_path: Option<String>,
 }
 
 fn parse_task_name(task_name: &str) -> Result<Task, String> {
@@ -81,7 +81,14 @@ fn main() {
             do_grade(grade_args.task, &grade_args.wpk_path, !grade_args.noprogress, !grade_args.nocolor, grade_args.json)
         },
         Commands::Compress(compress) => {
-            do_compress(compress.input_path.as_str(), compress.output_path.as_str())
+            let input_path = compress.input_path;
+            let output_path = compress.output_path.unwrap_or_else(|| {
+                let extension_idx = input_path.rfind(".wpk").unwrap();
+                let basename = &input_path[..extension_idx];
+                let extension = &input_path[extension_idx..];
+                basename.to_string() + "-compress" + extension
+            });
+            do_compress(input_path.as_str(), output_path.as_str())
         }
     };
     if let Some(e) = res.err() {
