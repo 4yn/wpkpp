@@ -6,34 +6,6 @@ Now with compression, fixed testcases and JSON output.
 
 Original at https://github.com/radical-semiconductor/woodpecker/ and https://radicalsemiconductor.com/woodpecker/
 
-## `.wpkm` syntax
-
-`wpkpp` will parse woodpecker scripts differently based on the file extension. `.wpk`
-files follow original syntax while `.wpkm` scripts uses one character per instruction:
-
-- `INC` is `>`, `INC n` is `n>`
-- `CDEC` is `<`, `CDEC n` is `n<`
-- `LOAD` is `?` or `v`
-- `INV` is `!` or `^`
-
-For example, the following `0.wpk`
-
-```
-INC
-LOAD
-CDEC
-LOAD
-INC
-INC
-INV
-```
-
-is equivalent to
-
-```
->?<?>>!
-```
-
 ## Install
 
 ```bash
@@ -44,7 +16,7 @@ cargo install --path .
 
 ## Usage
 
-**`wpkpp grade [task] [file.(wpk|wpkm)]`**
+### `wpkpp grade [task] [file.(wpk|wpkm)]`
 
 Grades a woodpecker task. Currently implemented up to stage 5.
 
@@ -70,7 +42,7 @@ $ wpkpp grade 0 0.wpkm --json
 {"verdict":"WA","score":48,"total":100,"runtime":7,"memory":4,"instructions":{"inc":3,"cdec":1,"load":2,"inv":1},"time_taken":{"parse":0.000043039,"vm":0.118700937,"grade":4.168959827}}
 ```
 
-**`wpkpp compress [infile.(wpk|wpkm)] [outfile.(wpk|wpkm)]`**
+### `wpkpp compress [infile.(wpk|wpkm)] [outfile.(wpk|wpkm)]`
 
 Compresses a woodpecker script to use repeat INC/CDEC instructions.
 
@@ -83,4 +55,32 @@ Writing to file 0.wpkm
 Done
 $ cat 0c.wpkm
 9>?
+```
+
+## `.wpkm` syntax
+
+`wpkpp` will parse woodpecker scripts differently based on the file extension. `.wpk`
+files follow original syntax while `.wpkm` "minified" scripts uses one character per instruction:
+
+- `INC` is `>`, `INC n` is `n>`
+- `CDEC` is `<`, `CDEC n` is `n<`
+- `LOAD` is `?` or `v`
+- `INV` is `!` or `^`
+
+For example, the following `0.wpk`
+
+```
+INC
+LOAD
+CDEC
+LOAD
+INC
+INC
+INV
+```
+
+is equivalent to this `0.wpkm`
+
+```
+>?<?>>!
 ```
