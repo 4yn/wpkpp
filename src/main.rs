@@ -20,12 +20,16 @@ enum Commands {
 #[command(verbatim_doc_comment)]
 /// Grade a woodpecker task
 /// Current challenges:
-///   0: 1 bit XOR
-///   1: 1 bit half adder
-///   2: 16 bit add
-///   3: 16 bit multiplication
-///   4: 16 bit add modulo 2**16 - 17
-///   5: 16 bit multiplication modulo 2**16 - 17
+///   0  : 1 bit XOR
+///   1  : 1 bit half adder
+///   2  : 16 bit addition
+///   2a : 16 bit subtraction (a >= b, calculate a - b)
+///   2b : 16 bit subtraction modulo 2**16 (requires underflow)
+///   3  : 16 bit multiplication
+///   4  : 16 bit addition modulo 2**16 - 17
+///   4a : 16 bit subtraction modulo 2**16 - 17
+///   5  : 16 bit multiplication modulo 2**16 - 17
+///   5a : 16 bit multiplicative inverse modulo 2**16 - 17 
 struct Grade {
     /// Task number [0..5]
     #[arg(value_name = "task", value_parser = parse_task_name)]

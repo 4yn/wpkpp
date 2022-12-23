@@ -19,3 +19,22 @@ impl ResetableTimer {
         since.as_secs_f64()
     }
 }
+
+pub fn mod_inv(a: u64, module: u64) -> u64 {
+    // https://rosettacode.org/wiki/Modular_inverse#Rust
+    let a = a as i64;
+    let module = module as i64;
+
+    let mut mn = (module, a);
+    let mut xy = (0, 1);
+
+    while mn.1 != 0 {
+        xy = (xy.1, xy.0 - (mn.0 / mn.1) * xy.1);
+        mn = (mn.1, mn.0 % mn.1);
+    }
+
+    while xy.0 < 0 {
+        xy.0 += module;
+    }
+    xy.0 as u64
+}

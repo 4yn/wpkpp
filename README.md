@@ -42,6 +42,13 @@ $ wpkpp grade 0 0.wpkm --json
 {"verdict":"WA","score":48,"total":100,"runtime":7,"memory":4,"instructions":{"inc":3,"cdec":1,"load":2,"inv":1},"time_taken":{"parse":0.000043039,"vm":0.118700937,"grade":4.168959827}}
 ```
 
+Some extra tasks are also available in addition to the original woodpecker challenge:
+
+- Task `2a` - 16 bit subtraction, result is strictly positive
+- Task `2b` - 16 bit subtraction modulo 2^16, requiring underflow
+- Task `4a` - 16 bit subtraction modulo 2**16 - 17
+- Task `5a` - 16 bit multiplicative inverse modulo 2**16 - 17
+
 ### `wpkpp compress [infile.(wpk|wpkm)] [outfile.(wpk|wpkm)]`
 
 Compresses a woodpecker script to use repeat INC/CDEC instructions.
