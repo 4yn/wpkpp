@@ -33,7 +33,7 @@ struct GradeResult {
 }
 
 pub fn do_grade(
-    task_id: u8,
+    task: Task,
     wpk_path: &str,
     progress: bool,
     color: bool,
@@ -44,7 +44,6 @@ pub fn do_grade(
     let mut vm_time: f64 = 0.0;
     let mut grade_time: f64 = 0.0;
 
-    let task = Task::from_u8(task_id)?;
     let instructions = parse_file(wpk_path, true)?;
 
     parse_time += timer.seconds_since();

@@ -23,18 +23,18 @@ pub enum Task {
 }
 
 impl Task {
-    pub fn from_u8(x: u8) -> Result<Self> {
-        match x {
-            0 => Ok(Self::ZeroXor),
-            1 => Ok(Self::OneAdd1),
-            2 => Ok(Self::TwoAdd16),
-            3 => Ok(Self::ThreeMul16),
-            4 => Ok(Self::FourAdd16Mod),
-            5 => Ok(Self::FiveMul16Mod),
-            6 => Ok(Self::SixPointAdd),
-            7 => Ok(Self::SevenPointMul),
-            8 => Ok(Self::EightSha256),
-            _ => Err(anyhow!("Unknown task number {}", x))
+    pub fn from_str(task_name: &str) -> Result<Self> {
+        match task_name {
+            "0" => Ok(Self::ZeroXor),
+            "1" => Ok(Self::OneAdd1),
+            "2" => Ok(Self::TwoAdd16),
+            "3" => Ok(Self::ThreeMul16),
+            "4" => Ok(Self::FourAdd16Mod),
+            "5" => Ok(Self::FiveMul16Mod),
+            "6" => Ok(Self::SixPointAdd),
+            "7" => Ok(Self::SevenPointMul),
+            "8" => Ok(Self::EightSha256),
+            _ => Err(anyhow!("Unknown task number {}", task_name))
         }
     }
 
