@@ -1,4 +1,5 @@
 use clap::{Parser, Args, Subcommand};
+use std::process;
 
 use wpkpp::{do_compress, do_grade, check_valid_extension, task::Task};
 
@@ -93,5 +94,7 @@ fn main() {
     };
     if let Some(e) = res.err() {
         println!("Error: {}", e);
+        process::exit(1);
     }
+    process::exit(0);
 }
