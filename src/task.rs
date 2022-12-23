@@ -71,8 +71,10 @@ impl Task {
                     2 => (0, 1),
                     3 => (1, 1),
                     4 => (0xffff, 0),
-                    5 => (0, 0xffff),
-                    6 => (0xffff, 0xffff),
+                    5 => (0xffff, 1),
+                    6 => (0, 0xffff),
+                    7 => (1, 0xffff),
+                    8 => (0xffff, 0xffff),
                     _ => (rng.gen::<u64>() & 0xffff, rng.gen::<u64>() & 0xffff),
                 };
                 let out = in_a + in_b;
@@ -86,8 +88,10 @@ impl Task {
                     2 => (0, 1),
                     3 => (1, 1),
                     4 => (0xffff, 0),
-                    5 => (0, 0xffff),
-                    6 => (0xffff, 0xffff),
+                    5 => (0xffff, 1),
+                    6 => (0, 0xffff),
+                    7 => (1, 0xffff),
+                    8 => (0xffff, 0xffff),
                     _ => (rng.gen::<u64>() & 0xffff, rng.gen::<u64>() & 0xffff),
                 };
                 let out = in_a * in_b;
@@ -100,10 +104,12 @@ impl Task {
                     1 => (1, 0),
                     2 => (0, 1),
                     3 => (1, 1),
-                    4 => (0xffff, 0),
-                    5 => (0, 0xffff),
-                    6 => (0xffff, 0xffff),
-                    _ => (rng.gen::<u64>() & 0xffff, rng.gen::<u64>() & 0xffff),
+                    4 => (ECC_MOD-1, 0),
+                    5 => (ECC_MOD-1, 1),
+                    6 => (0, ECC_MOD-1),
+                    7 => (1, ECC_MOD-1),
+                    8 => (ECC_MOD-1, ECC_MOD-1),
+                    _ => (rng.gen::<u64>() % ECC_MOD, rng.gen::<u64>() % ECC_MOD),
                 };
                 let out = (in_a + in_b) % ECC_MOD;
 
@@ -115,10 +121,12 @@ impl Task {
                     1 => (1, 0),
                     2 => (0, 1),
                     3 => (1, 1),
-                    4 => (0xffff, 0),
-                    5 => (0, 0xffff),
-                    6 => (0xffff, 0xffff),
-                    _ => (rng.gen::<u64>() & 0xffff, rng.gen::<u64>() & 0xffff),
+                    4 => (ECC_MOD-1, 0),
+                    5 => (ECC_MOD-1, 1),
+                    6 => (0, ECC_MOD-1),
+                    7 => (1, ECC_MOD-1),
+                    8 => (ECC_MOD-1, ECC_MOD-1),
+                    _ => (rng.gen::<u64>() % ECC_MOD, rng.gen::<u64>() % ECC_MOD),
                 };
                 let out = (in_a * in_b) % ECC_MOD;
 
