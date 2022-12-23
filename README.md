@@ -8,10 +8,31 @@ Original at https://github.com/radical-semiconductor/woodpecker/ and https://rad
 
 ## `.wpkm` syntax
 
+`wpkpp` will parse woodpecker scripts differently based on the file extension. `.wpk`
+files follow original syntax while `.wpkm` scripts uses one character per instruction:
+
 - `INC` is `>`, `INC n` is `n>`
 - `CDEC` is `<`, `CDEC n` is `n<`
 - `LOAD` is `?` or `v`
 - `INV` is `!` or `^`
+
+For example, the following `0.wpk`
+
+```
+INC
+LOAD
+CDEC
+LOAD
+INC
+INC
+INV
+```
+
+is equivalent to
+
+```
+>?<?>>!
+```
 
 ## Install
 
