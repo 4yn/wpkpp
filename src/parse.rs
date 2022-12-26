@@ -149,7 +149,7 @@ fn parse_wpkm(path: &str, check_size: bool) -> Result<Instructions> {
             return Err(anyhow!(
                 "File size {:.2}/{:.2} MB is too large; try compressing your instructions",
                 (filesize as f64) / (MEGABYTE as f64),
-                (MAX_FILE_SIZE as f64) / (MEGABYTE as f64)
+                (MAX_M_FILE_SIZE as f64) / (MEGABYTE as f64)
             ));
         }
     }
