@@ -13,10 +13,10 @@ use crate::{
 
 #[derive(Serialize, Deserialize, Debug)]
 struct InstructionCount {
-    inc: u64,
-    cdec: u64,
-    load: u64,
-    inv: u64,
+    inc: String,
+    cdec: String,
+    load: String,
+    inv: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -29,10 +29,10 @@ struct TimeTaken {
 #[derive(Serialize, Deserialize, Debug)]
 struct GradeResult {
     verdict: String,
-    score: u64,
-    total: u64,
-    runtime: i64,
-    memory: i64,
+    score: String,
+    total: String,
+    runtime: String,
+    memory: String,
     instructions: InstructionCount,
     time_taken: TimeTaken,
 }
@@ -105,15 +105,15 @@ pub fn do_grade(task: Task, wpk_path: &str, progress: bool, color: bool, json: b
                     false => "WA",
                 }
             ),
-            score: correct,
-            total: total,
-            runtime: max_runtime,
-            memory: max_memory,
+            score: correct.to_string(),
+            total: total.to_string(),
+            runtime: max_runtime.to_string(),
+            memory: max_memory.to_string(),
             instructions: InstructionCount {
-                inc: opcounts.0,
-                cdec: opcounts.1,
-                load: opcounts.2,
-                inv: opcounts.3,
+                inc: opcounts.0.to_string(),
+                cdec: opcounts.1.to_string(),
+                load: opcounts.2.to_string(),
+                inv: opcounts.3.to_string(),
             },
             time_taken: TimeTaken {
                 parse: parse_time,
