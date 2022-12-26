@@ -223,7 +223,7 @@ impl Task {
                     6 => mod_inv(4, ECC_MOD),
                     7 => ECC_MOD-2,
                     8 => ECC_MOD-1,
-                    _ => rng.gen::<u64>() % ECC_MOD,
+                    _ => 1 + (rng.gen::<u64>() % (ECC_MOD-1)),
                 };
                 let out = mod_inv(in_a, ECC_MOD);
 
