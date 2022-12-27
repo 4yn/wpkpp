@@ -1,5 +1,4 @@
 use std::env;
-use std::cmp::{min, max};
 use bitvec::prelude::*;
 use rand::{rngs::StdRng, Rng};
 use rand_seeder::Seeder;
@@ -17,8 +16,7 @@ pub enum Task {
     ZeroXor,
     OneAdd1,
     TwoAdd16,
-    TwoASub16,
-    TwoBSub16,
+    TwoSub16,
     ThreeMul16,
     FourAdd16Mod,
     FourASub16Mod,
@@ -35,7 +33,7 @@ impl Task {
             "0" => Ok(Self::ZeroXor),
             "1" => Ok(Self::OneAdd1),
             "2" => Ok(Self::TwoAdd16),
-            "2a" => Ok(Self::TwoASub16),
+            "2a" => Ok(Self::TwoSub16),
             "3" => Ok(Self::ThreeMul16),
             "4" => Ok(Self::FourAdd16Mod),
             "4a" => Ok(Self::FourASub16Mod),
@@ -95,27 +93,7 @@ impl Task {
 
                 (vec![(in_a, 16), (in_b, 16)], vec![(out, 17)])
             }
-            Task::TwoASub16 => {
-                let (in_a, in_b) = match tc_id {
-                    0 => (0, 0),
-                    1 => (1, 0),
-                    2 => (1, 1),
-                    3 => (0x0100, 1),
-                    4 => (0x0100, 0x0100),
-                    5 => (0xffff, 0),
-                    6 => (0xffff, 1),
-                    7 => (0xffff, 0x0100),
-                    8 => (0xffff, 0xffff),
-                    _ => {
-                        let (tmp_a, tmp_b) = (rng.gen::<u64>() & 0xffff, rng.gen::<u64>() & 0xffff);
-                        (max(tmp_a, tmp_b), min(tmp_a, tmp_b))
-                    },
-                };
-                let out = (in_a + 0x10000 - in_b) & 0xffff;
-
-                (vec![(in_a, 16), (in_b, 16)], vec![(out, 16)])
-            }
-            Task::TwoBSub16 => {
+            Task::TwoSub16 => {
                 let (in_a, in_b) = match tc_id {
                     0 => (0, 0),
                     1 => (1, 0),

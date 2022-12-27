@@ -42,8 +42,7 @@ $ wpkpp grade 0 0.wpkm --json
 
 Some extra tasks are also available in addition to the original woodpecker challenge:
 
-- Task `2a` - 16 bit subtraction, result is strictly positive
-- Task `2b` - 16 bit subtraction modulo 2^16, requiring underflow
+- Task `2a` - 16 bit subtraction modulo 2^16, requiring underflow
 - Task `4a` - 16 bit subtraction modulo 2**16 - 17
 - Task `5a` - 16 bit multiplicative inverse modulo 2**16 - 17
 
