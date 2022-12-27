@@ -24,8 +24,7 @@ enum Commands {
 ///   0  : 1 bit XOR
 ///   1  : 1 bit half adder
 ///   2  : 16 bit addition
-///   2a : 16 bit subtraction (a >= b, calculate a - b)
-///   2b : 16 bit subtraction modulo 2**16 (requires underflow)
+///   2a : 16 bit subtraction
 ///   3  : 16 bit multiplication
 ///   4  : 16 bit addition modulo 2**16 - 17
 ///   4a : 16 bit subtraction modulo 2**16 - 17
